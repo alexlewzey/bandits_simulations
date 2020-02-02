@@ -25,7 +25,7 @@ logging.basicConfig(
 )
 
 NUM_ITERATIONS: int = 2000
-BANDIT_PROBABILITIES: List[float] = [0.5, 0.6, 0.7, 0.9]
+BANDIT_PROBABILITIES: List[float] = [0.5, 0.65, 0.7, 0.4]
 
 num_bandits: int = len(BANDIT_PROBABILITIES)
 ylim = 10
@@ -44,7 +44,7 @@ def init():
 
 def adjust_ylim(y, ylim) -> None:
     """if biggest y value is greater than ax ylim, it ylim to biggest y"""
-    ymax = max(y)
+    ymax = max(y) + 0.2
     if ymax > ylim:
         ax.set_ylim(0, ymax)
 
