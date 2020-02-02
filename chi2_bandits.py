@@ -1,6 +1,18 @@
 #! python3
 """
-plot pvalue over the number of iterations for a chi squared test with a different click through rate
+plot pvalue over the number of iterations for a chi squared test with a different click through rate.
+Demonstrates some of the flaws of the traditional frequentest approach:
+ - false positives:
+        test will occasionally return a significant result for bandit with the same probability of a positive result
+ - false negatives:
+        test will often return insignificant results when bandits have notable difference in proability of a positive
+        outcome
+ - large sample size required:
+        to make confident decision of the best bandit, even then some times incorrect for n > 10,000
+ - does not make use of new information:
+        until a prespecified sample size as been reached, making decision based on anything less than the prespecifed
+        sample size can lead to incorrect decision due to the volatile nature of the p-value
+
 """
 
 import logging
@@ -9,7 +21,7 @@ from typing import Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import chi2_contingency, chisquare, chi2
+from scipy.stats import chi2
 
 logger = logging.getLogger(__name__)
 
