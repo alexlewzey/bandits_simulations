@@ -24,6 +24,10 @@ class Bandit:
         self.a = 1
         self.b = 1
 
+    @property
+    def params(self):
+        return (self.a, self.b)
+
     def pull(self):
         return 1 if np.random.random() < self.p else 0
 
