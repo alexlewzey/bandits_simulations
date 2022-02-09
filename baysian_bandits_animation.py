@@ -26,6 +26,7 @@ logging.basicConfig(
 
 NUM_ITERATIONS: int = 2000
 BANDIT_PROBABILITIES: List[float] = [0.5, 0.65, 0.7, 0.4]
+bandit_names = ['A', 'B', 'C', 'D']
 
 num_bandits: int = len(BANDIT_PROBABILITIES)
 ylim = 10
@@ -64,7 +65,7 @@ def animation(i):
 
 def generate_data() -> List[List[Tuple[int, int]]]:
     plot_parameters: List = []
-    bandits = [Bandit(p) for p in BANDIT_PROBABILITIES]
+    bandits = [Bandit(p, name=name) for p, name in zip(BANDIT_PROBABILITIES, bandit_names)]
     for i in range(NUM_ITERATIONS):
         best_bandit: Bandit
         best_sample: float = -1

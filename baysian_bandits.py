@@ -19,7 +19,8 @@ BANDIT_PROBABILITIES = [0.2, 0.6, 0.7]
 
 
 class Bandit:
-    def __init__(self, p: float):
+    def __init__(self, p: float, name: str):
+        self.name = name
         self.p = p
         self.a = 1
         self.b = 1
@@ -39,7 +40,7 @@ class Bandit:
         self.b += 1 - x
 
     def __repr__(self):
-        return f'Bandit(p={self.p}, a={self.a}, b={self.b})'
+        return f'Bandit(name={self.name}, p={self.p}, a={self.a}, b={self.b})'
 
 
 def plot_bandits(bandits: List[Bandit], trail_num: Optional[int] = None):
