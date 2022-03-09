@@ -56,7 +56,7 @@ def plot_bandits(bandits: List[Bandit], trail_num: Optional[int] = None):
 
 
 def run_experiment():
-    bandits = [Bandit(p) for p in BANDIT_PROBABILITIES]
+    bandits = [Bandit(p, str(p)) for p in BANDIT_PROBABILITIES]
 
     for i in range(NUM_TRAILS):
         best_bandit: Bandit
@@ -69,7 +69,7 @@ def run_experiment():
                 best_bandit = bandit
             all_samples.append(sample)
         try:
-            if (i % 20 == 0):
+            if i % 20 == 0:
                 plot_bandits(bandits, i)
         except ZeroDivisionError:
             pass
