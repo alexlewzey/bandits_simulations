@@ -32,6 +32,7 @@ num_bandits: int = len(BANDIT_PROBABILITIES)
 ylim = 10
 fig, ax = plt.subplots()
 ax.set_ylim(0, ylim)
+ax.set_xlim(0, 1)
 lines = [plt.plot([], [], label=f'Bandit: p={p}')[0] for p in BANDIT_PROBABILITIES]
 plt.legend()
 

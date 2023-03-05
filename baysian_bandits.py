@@ -59,7 +59,7 @@ def run_experiment():
     bandits = [Bandit(p, str(p)) for p in BANDIT_PROBABILITIES]
 
     for i in range(NUM_TRAILS):
-        best_bandit: Bandit
+        best_bandit: Optional[Bandit] = None
         max_sample: float = -1
         all_samples: List = []
         for bandit in bandits:
