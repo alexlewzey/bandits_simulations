@@ -7,33 +7,37 @@ Global variables:
                           different results.
 """
 import logging
-from typing import List, Tuple
+import random
+from typing import List, Optional, Tuple
 
-import numpy as np
-from scipy import stats
-from baysian_bandits import Bandit
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
+from scipy import stats
+
+from baysian_bandits import Bandit
 
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S',
+    format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
+    datefmt="%d-%m-%Y %H:%M:%S",
     level=logging.INFO,
     # filename='logs.txt'
 )
 
-NUM_ITERATIONS: int = 2000
+NUM_ITERATIONS: int = 500
 BANDIT_PROBABILITIES: List[float] = [0.5, 0.65, 0.7, 0.4]
-bandit_names = ['A', 'B', 'C', 'D']
+bandit_names = ["A", "B", "C", "D"]
+# PCT_RANDOM: float = 0.0
+# ratio = int(round(1 / PCT_RANDOM))
 
 num_bandits: int = len(BANDIT_PROBABILITIES)
 ylim = 10
 fig, ax = plt.subplots()
 ax.set_ylim(0, ylim)
 ax.set_xlim(0, 1)
-lines = [plt.plot([], [], label=f'Bandit: p={p}')[0] for p in BANDIT_PROBABILITIES]
+lines = [plt.plot([], [], label=f"Bandit: p={p}")[0] for p in BANDIT_PROBABILITIES]
 plt.legend()
 
 
@@ -54,7 +58,7 @@ def adjust_ylim(y, ylim) -> None:
 def animation(i):
     """run every new frame"""
     frame_params = plot_data[i]
-    ax.set_title(f'Iteration: {i}')
+    ax.set_title(f"Iteration: {i}")
     for j, line in enumerate(lines):
         a, b = frame_params[j]
         y = stats.beta(a, b).pdf(x)
@@ -66,12 +70,15 @@ def animation(i):
 
 def generate_data() -> List[List[Tuple[int, int]]]:
     plot_parameters: List = []
-    bandits = [Bandit(p, name=name) for p, name in zip(BANDIT_PROBABILITIES, bandit_names)]
+    bandits = [
+        Bandit(p, name=name) for p, name in zip(BANDIT_PROBABILITIES, bandit_names)
+    ]
+    best_bandit: Optional[Bandit] = None
     for i in range(NUM_ITERATIONS):
-        best_bandit: Bandit
         best_sample: float = -1
         samples: List = []
         bandit_params: List = []
+
         for bandit in bandits:
             sample = bandit.sample()
             if sample > best_sample:
@@ -80,16 +87,22 @@ def generate_data() -> List[List[Tuple[int, int]]]:
             samples.append(sample)
             bandit_params.append(bandit.params)
 
+        # if i % ratio == 0:
+        #     print(f'selecting random sample: i={i}')
+        #     best_bandit = random.choice(bandits)
+
         result_binary = best_bandit.pull()
         best_bandit.update(result_binary)
         plot_parameters.append(bandit_params)
-        logger.info(f'samples={samples}')
-        logger.info(f'bandits={bandits}')
+        logger.info(f"samples={samples}")
+        logger.info(f"bandits={bandits}")
     return plot_parameters
 
 
 x = np.linspace(0, 1, 200)
 plot_data = generate_data()
 
-anni = FuncAnimation(fig=fig, func=animation, frames=NUM_ITERATIONS, init_func=init, interval=50)
+anni = FuncAnimation(
+    fig=fig, func=animation, frames=NUM_ITERATIONS, init_func=init, interval=50,
+)
 plt.show()

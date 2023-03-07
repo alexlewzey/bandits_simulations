@@ -8,8 +8,8 @@ from scipy import stats
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S',
+    format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
+    datefmt="%d-%m-%Y %H:%M:%S",
     level=logging.INFO,
     # filename='logs.txt'
 )
@@ -40,7 +40,7 @@ class Bandit:
         self.b += 1 - x
 
     def __repr__(self):
-        return f'Bandit(name={self.name}, p={self.p}, a={self.a}, b={self.b})'
+        return f"Bandit(name={self.name}, p={self.p}, a={self.a}, b={self.b})"
 
 
 def plot_bandits(bandits: List[Bandit], trail_num: Optional[int] = None):
@@ -48,9 +48,9 @@ def plot_bandits(bandits: List[Bandit], trail_num: Optional[int] = None):
     x = np.linspace(0, 1, 200)
     for bandit in bandits:
         y = stats.beta(bandit.a, bandit.b).pdf(x)
-        ax.plot(x, y, label=f'Bandit: {bandit.p}')
+        ax.plot(x, y, label=f"Bandit: {bandit.p}")
 
-    ax.set_title(f'Trail num: {trail_num}')
+    ax.set_title(f"Trail num: {trail_num}")
     plt.legend()
     plt.show()
 
@@ -76,9 +76,9 @@ def run_experiment():
 
         result_binary = best_bandit.pull()
         best_bandit.update(result_binary)
-        logger.info(f'i={i}, samples={all_samples}')
-        logger.info(f'bandit priors: {bandits}')
+        logger.info(f"i={i}, samples={all_samples}")
+        logger.info(f"bandit priors: {bandits}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run_experiment()

@@ -26,8 +26,8 @@ from scipy.stats import chi2
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S',
+    format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
+    datefmt="%d-%m-%Y %H:%M:%S",
     level=logging.INFO,
     # filename='logs.txt'
 )
@@ -65,7 +65,7 @@ def run_experiment(p1: float, p2: float, N: int):
         pval = 1 - chi2.cdf(ch, df=1)
         pvalues.append(pval)
 
-    logger.info(f'\n{contingency}')
+    logger.info(f"\n{contingency}")
     return pvalues
 
 
@@ -88,7 +88,7 @@ def plot_pvalues():
     for i, spec in enumerate(params):
         logger.info(spec)
         data = run_experiment(spec.p1, spec.p2, spec.n)
-        logger.info(f'iter:{i} sum of p: {sum(data)}')
+        logger.info(f"iter:{i} sum of p: {sum(data)}")
         ax[i].plot(data)
         ax[i].plot(np.ones(20_000) * 0.05)
         ax[i].set_title(spec)
@@ -96,5 +96,5 @@ def plot_pvalues():
     plt.show()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     plot_pvalues()
