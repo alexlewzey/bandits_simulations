@@ -1,0 +1,25 @@
+repos:
+# general
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+  - id: trailing-whitespace
+  - id: check-merge-conflict
+  - id: end-of-file-fixer
+  - id: check-docstring-first
+  - id: detect-private-key
+  - id: check-added-large-files
+    args: [--maxkb=20480]
+# python
+- repo: https://github.com/PyCQA/docformatter
+  rev: v1.7.5
+  hooks:
+  - id: docformatter
+    args: [--recursive, --in-place, --wrap-summaries, '88', --wrap-descriptions, '88']
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.9
+  hooks:
+  - id: ruff
+    types_or: [python, pyi, jupyter]
+  - id: ruff-format
+    types_or: [python, pyi, jupyter]

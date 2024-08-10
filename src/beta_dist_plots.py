@@ -1,6 +1,4 @@
-"""
-Generating some plots to get a better intuitive feel for the beta distribution
-"""
+"""Generating some plots to get a better intuitive feel for the beta distribution."""
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -10,10 +8,9 @@ from scipy import stats
 x = np.linspace(0, 1, 200)
 data = []
 print(
-    f"the probability that the underlying probability that generated that distribution is less than 0.5:"
+    "the probability that the underlying probability that generated that distribution "
+    "is less than 0.5:"
 )
-# for i in [1, 10, 100, 500]:
-#     a, b = np.array([1, 3]) * i
 for _ in range(5):
     a, b = np.random.randint(0, 30, 2)
     dist = stats.beta(a=a, b=b)
@@ -22,7 +19,13 @@ for _ in range(5):
     param = f"a={a},b={b}"
     df["param"] = param
     data.append(
-        {"a": a, "b": b, "dist": dist, "y": y, "df": df,}
+        {
+            "a": a,
+            "b": b,
+            "dist": dist,
+            "y": y,
+            "df": df,
+        }
     )
     print(f"{param} = {dist.cdf(0.5)}")
 

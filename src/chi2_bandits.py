@@ -1,18 +1,20 @@
-#! python3
-"""
-plot pvalue over the number of iterations for a chi squared test with a different click through rate.
-Demonstrates some of the flaws of the traditional frequentest approach:
- - false positives:
-        test will occasionally return a significant result for bandit with the same probability of a positive result
- - false negatives:
-        test will often return insignificant results when bandits have notable difference in proability of a positive
-        outcome
- - large sample size required:
-        to make confident decision of the best bandit, even then some times incorrect for n > 10,000
- - does not make use of new information:
-        until a prespecified sample size as been reached, making decision based on anything less than the prespecifed
-        sample size can lead to incorrect decision due to the volatile nature of the p-value
+"""Plot pvalue over the number of iterations for a chi squared test with a different
+click through rate.
 
+Demonstrates some of the flaws of the traditional frequentest approach:
+- false positives:
+        test will occasionally return a significant result for bandit with the same
+        probability of a positive result
+- false negatives:
+        test will often return insignificant results when bandits have notable
+        difference in proability of a positive outcome
+- large sample size required:
+        to make confident decision of the best bandit, even then some times incorrect
+        for n > 10,000
+- does not make use of new information:
+        until a prespecified sample size as been reached, making decision based on
+        anything less than the prespecifed sample size can lead to incorrect decision
+        due to the volatile nature of the p-value
 """
 
 import logging
@@ -29,12 +31,11 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
     datefmt="%d-%m-%Y %H:%M:%S",
     level=logging.INFO,
-    # filename='logs.txt'
 )
 
 
 class DataGenerator:
-    """generates yes/no clicks for A and B groups"""
+    """Generates yes/no clicks for A and B groups."""
 
     def __init__(self, p1, p2):
         self.p1 = p1
@@ -46,13 +47,14 @@ class DataGenerator:
         return (click1, click2)
 
 
-def run_experiment(p1: float, p2: float, N: int):
-    """calculates the pvalues for ab comparison of two success rates over p1 and p2 for N iterations"""
+def run_experiment(p1: float, p2: float, n: int):
+    """Calculates the pvalues for ab comparison of two success rates over p1 and p2 for
+    N iterations."""
     pvalues = []
     contingency = np.ones(4).reshape(2, 2)  # rows A B, cols click noclick
     data_gen = DataGenerator(p1, p2)
 
-    for i in range(N):
+    for _ in range(n):
         click1, click2 = data_gen.get_clicks()
         contingency[0, click1] += 1
         contingency[1, click2] += 1
