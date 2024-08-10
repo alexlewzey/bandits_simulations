@@ -29,7 +29,7 @@ tmp_dir = Path(__file__).parent.parent / "tmp"
 tmp_dir.mkdir(exist_ok=True)
 
 
-NUM_ITERATIONS: int = 500
+NUM_ITERATIONS: int = 300
 BANDIT_PROBABILITIES: List[float] = [0.5, 0.65, 0.7, 0.4]
 bandit_names = ["A", "B", "C", "D"]
 # PCT_RANDOM: float = 0.0
@@ -178,5 +178,5 @@ anni = FuncAnimation(
     init_func=init,
     interval=50,
 )
-anni.save(tmp_dir / "bandit_animation.mp4", writer="ffmpeg", fps=30)
+anni.save(tmp_dir / "bandit_animation.gif", writer="imagemagick", fps=30)
 plt.show()
